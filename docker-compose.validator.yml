@@ -1,0 +1,77 @@
+version: '3.6'
+
+services:
+  libra_validator_0:
+    container_name: libra_validator_0
+    build:
+      context: libra/
+      dockerfile: docker/validator/validator.Dockerfile
+      args:
+
+    environment:
+      - IMAGE="libra_e2e:latest"
+      - CONFIGDIR="$(dirname "$0")/../../terraform/validator-sets/dev/"
+      - SEED_PEERS="$(sed 's,SEED_IP,172.18.0.10,' $CONFIGDIR/seed_peers.config.toml)"
+      - GENESIS_BLOB="$(base64 $CONFIGDIR/genesis.blob)"
+      - TRUSTED_PEERS="$(cat $CONFIGDIR/trusted_peers.config.toml)"
+    networks:
+      libra_test_net:
+        ipv4_address: 172.18.0.10
+
+  libra_validator_1:
+    container_name: libra_validator_1
+    build:
+      context: libra/
+      dockerfile: docker/validator/validator.Dockerfile
+      args:
+
+    environment:
+      - IMAGE="libra_e2e:latest"
+      - CONFIGDIR="$(dirname "$0")/../../terraform/validator-sets/dev/"
+      - SEED_PEERS="$(sed 's,SEED_IP,172.18.0.10,' $CONFIGDIR/seed_peers.config.toml)"
+      - GENESIS_BLOB="$(base64 $CONFIGDIR/genesis.blob)"
+      - TRUSTED_PEERS="$(cat $CONFIGDIR/trusted_peers.config.toml)"
+    networks:
+      libra_test_net:
+        ipv4_address: 172.18.0.11
+
+  libra_validator_2:
+    container_name: libra_validator_2
+    build:
+      context: libra/
+      dockerfile: docker/validator/validator.Dockerfile
+      args:
+
+    environment:
+      - IMAGE="libra_e2e:latest"
+      - CONFIGDIR="$(dirname "$0")/../../terraform/validator-sets/dev/"
+      - SEED_PEERS="$(sed 's,SEED_IP,172.18.0.10,' $CONFIGDIR/seed_peers.config.toml)"
+      - GENESIS_BLOB="$(base64 $CONFIGDIR/genesis.blob)"
+      - TRUSTED_PEERS="$(cat $CONFIGDIR/trusted_peers.config.toml)"
+    networks:
+      libra_test_net:
+        ipv4_address: 172.18.0.12
+
+  libra_validator_3:
+    container_name: libra_validator_3
+    build:
+      context: libra/
+      dockerfile: docker/validator/validator.Dockerfile
+      args:
+
+    environment:
+      - IMAGE="libra_e2e:latest"
+      - CONFIGDIR="$(dirname "$0")/../../terraform/validator-sets/dev/"
+      - SEED_PEERS="$(sed 's,SEED_IP,172.18.0.10,' $CONFIGDIR/seed_peers.config.toml)"
+      - GENESIS_BLOB="$(base64 $CONFIGDIR/genesis.blob)"
+      - TRUSTED_PEERS="$(cat $CONFIGDIR/trusted_peers.config.toml)"
+      - PEER_KEYPAIRS="$(cat $CONFIGDIR/8deeeaed65f0cd7484a9e4e5ac51fbac548f2f71299a05e000156031ca78fb9f.node.keys.toml)"
+    networks:
+      libra_test_net:
+        ipv4_address: 172.18.0.13
+    ports:
+      - "30307:30307"
+
+networks:
+  libra_test_net:
+    subnet: 172.18.0.0/24

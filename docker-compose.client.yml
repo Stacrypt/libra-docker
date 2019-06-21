@@ -1,0 +1,8 @@
+version: '3.6'
+
+services:
+  libra_client:
+    container_name: libra_client_0
+    build:
+      context: libra/
+      dockerfile: docker/client/client.Dockerfile
